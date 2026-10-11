@@ -1,0 +1,75 @@
+spring:
+  application:
+    name: spacebook-backend
+
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/spacebook?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true}
+    username: ${SPRING_DATASOURCE_USERNAME:root}
+    password: ${SPRING_DATASOURCE_PASSWORD:Sathwik@_05}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      connection-timeout: 30000
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    locations: classpath:db/migration
+
+  cache:
+    type: simple
+
+  servlet:
+    multipart:
+      max-file-size: 2MB
+      max-request-size: 2MB
+
+server:
+  port: 8080
+  error:
+    include-message: always
+    include-binding-errors: always
+    include-stacktrace: on_param
+    include-exception: false
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+
+spacebook:
+  security:
+    jwt:
+      access-token-expiration: 900000  # 15 minutes in milliseconds
+      refresh-token-expiration: 604800000  # 7 days in milliseconds
+      secret: ${JWT_SECRET:default-secret-key-change-in-production-min-256-bits}
+    cors:
+      allowed-origins: ${CORS_ORIGINS:http://localhost:5173,http://localhost:3000}
+    organizer-invite-code: ${ORGANIZER_INVITE_CODE:ORG-2024-SECRET}
+    rate-limit:
+      login-attempts: 5
+      lockout-minutes: 15
+
+  nominatim:
+    base-url: https://nominatim.openstreetmap.org
+    user-agent: SpaceBook/1.0
+    cache-ttl: 86400  # 24 hours in seconds
+    rate-limit-ms: 1000  # 1 request per second
+
+logging:
+  level:
+    com.spacebook: DEBUG
+    org.springframework.security: DEBUG
+    org.hibernate.SQL: DEBUG

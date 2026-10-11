@@ -1,0 +1,42 @@
+spring:
+  application:
+    name: spacebook-backend-test
+  datasource:
+    url: jdbc:mysql://localhost:3306/spacebook_test?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: root
+    password: Sathwik@_05
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: false
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    locations: classpath:db/migration
+
+spacebook:
+  security:
+    jwt:
+      access-token-expiration: 900000
+      refresh-token-expiration: 604800000
+      secret: default-secret-key-change-in-production-min-256-bits
+    cors:
+      allowed-origins: http://localhost:5173
+    organizer-invite-code: ORG-2024-SECRET
+    rate-limit:
+      login-attempts: 5
+      lockout-minutes: 15
+  nominatim:
+    base-url: https://nominatim.openstreetmap.org
+    user-agent: SpaceBook/1.0
+    cache-ttl: 86400
+    rate-limit-ms: 1000
+
+logging:
+  level:
+    com.spacebook: WARN
+    org.springframework.security: WARN
+    org.hibernate: WARN

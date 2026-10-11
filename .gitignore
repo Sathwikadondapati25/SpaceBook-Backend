@@ -1,0 +1,43 @@
+# SpaceBook Backend .gitignore
+
+# Build outputs
+target/
+!target/*.jar
+
+# Maven
+.mvn/
+mvnw
+mvnw.cmd
+.settings/
+.project
+.classpath
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Database
+*.db
+*.sqlite
+
+# Secrets
+*.pem
+*.key
+*.jks
+*.keystore
