@@ -4,7 +4,7 @@
 target/
 !target/*.jar
 
-# Maven
+# Maven wrapper (include for deployment on Render)
 .mvn/
 mvnw
 mvnw.cmd
