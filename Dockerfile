@@ -1,20 +1,14 @@
-# Use Eclipse Temurin (OpenJDK 21) as base image
-FROM eclipse-temurin:21-jre-alpine
-
-# Set working directory
+# Multi-stage build for Spring Boot
+# Stage 1: Build with Maven
+FROM maven:3.9-eclipse-temurin-21 AS build
 WORKDIR /app
-
-# Copy Maven wrapper and configuration
-COPY mvnw mvnw.cmd .mvn .mvn/wrapper .mvn/wrapper/maven-wrapper.properties pom.xml ./
-
-# Make mvnw executable
-RUN chmod +x mvnw
-
-# Copy source code
+COPY pom.xml .
 COPY src ./src
+RUN mvn clean package -DskipTests
 
-# Build the application
-RUN ./mvnw clean package -DskipTests
-
-# Run the application
-CMD ["java", "-jar", "target/*.jar"]
+# Stage 2: Run with JRE
+FROM eclipse-temurin:21-jre-alpine
+WORKDIR /app
+COPY --from=build /app/target/*.jar app.jar
+EXPOSE 8080
+CMD ["java", "-jar", "app.jar"]
