@@ -73,3 +73,4 @@ logging:
     com.spacebook: DEBUG
     org.springframework.security: DEBUG
     org.hibernate.SQL: DEBUG
+    org.springframework.web: DEBUG

@@ -62,7 +62,7 @@ class ConcurrencyTest {
         } else {
             registry.add("spring.datasource.url", () -> "jdbc:mysql://localhost:3306/spacebook_test?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true");
             registry.add("spring.datasource.username", () -> "root");
-            registry.add("spring.datasource.password", () -> "Sathwik@_05");
+            registry.add("spring.datasource.password", () -> System.getenv().getOrDefault("SPRING_DATASOURCE_PASSWORD", ""));
         }
     }
 
