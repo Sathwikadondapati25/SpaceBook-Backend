@@ -3,8 +3,8 @@ spring:
     name: spacebook-backend-test
   datasource:
     url: jdbc:mysql://localhost:3306/spacebook_test?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
-    username: root
-    password: Sathwik@_05
+    username: ${SPRING_DATASOURCE_USERNAME:root}
+    password: ${SPRING_DATASOURCE_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
@@ -22,10 +22,10 @@ spacebook:
     jwt:
       access-token-expiration: 900000
       refresh-token-expiration: 604800000
-      secret: default-secret-key-change-in-production-min-256-bits
+      secret: ${JWT_SECRET:test-secret-key-for-testing-only-min-256-bits}
     cors:
       allowed-origins: http://localhost:5173
-    organizer-invite-code: ORG-2024-SECRET
+    organizer-invite-code: ${ORGANIZER_INVITE_CODE:SB-ORG-2026-SECURE}
     rate-limit:
       login-attempts: 5
       lockout-minutes: 15

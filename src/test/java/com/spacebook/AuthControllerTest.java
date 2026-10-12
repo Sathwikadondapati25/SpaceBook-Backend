@@ -85,7 +85,7 @@ public class AuthControllerTest {
     @Test
     @DisplayName("Should register organizer with valid invite code")
     void testRegisterOrganizer_Success() throws Exception {
-        RegisterRequest request = new RegisterRequest("org@example.com", "SecurePassword123!", "ORGANIZER", "ORG-2024-SECRET");
+        RegisterRequest request = new RegisterRequest("org@example.com", "SecurePassword123!", "ORGANIZER", "SB-ORG-2026-SECURE");
 
         mockMvc.perform(post("/api/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
