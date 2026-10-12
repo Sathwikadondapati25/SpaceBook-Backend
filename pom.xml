@@ -91,6 +91,12 @@
             <artifactId>jackson-datatype-jsr310</artifactId>
         </dependency>
 
+        <!-- Jackson Hibernate5 Module -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-hibernate5</artifactId>
+        </dependency>
+
         <!-- Swagger/OpenAPI -->
         <dependency>
             <groupId>org.springdoc</groupId>
@@ -146,7 +152,7 @@
                 <configuration>
                     <url>jdbc:mysql://localhost:3306/spacebook</url>
                     <user>root</user>
-                    <password>${SPRING_DATASOURCE_PASSWORD}</password>
+                    <password>${env.SPRING_DATASOURCE_PASSWORD}</password>
                 </configuration>
             </plugin>
         </plugins>
