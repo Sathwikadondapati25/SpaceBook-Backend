@@ -56,7 +56,7 @@ spacebook:
       refresh-token-expiration: 604800000  # 7 days in milliseconds
       secret: ${JWT_SECRET}
     cors:
-      allowed-origins: ${CORS_ORIGINS}
+      allowed-origins: ${CORS_ORIGINS:http://localhost:5173,http://localhost:3000,https://space-book-frontend-pi.vercel.app}
     organizer-invite-code: ${ORGANIZER_INVITE_CODE}
     rate-limit:
       login-attempts: 5

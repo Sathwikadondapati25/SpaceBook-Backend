@@ -21,12 +21,11 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 /**
- * Security configuration with JWT authentication and dynamic CORS
+ * Security configuration with JWT authentication
  */
 @Configuration
 @EnableWebSecurity
@@ -36,7 +35,7 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final UserDetailsService userDetailsService;
 
-    @Value("${spacebook.security.cors.allowed-origins:http://localhost:5173,http://localhost:3000}")
+    @Value("${spacebook.security.cors.allowed-origins:http://localhost:5173,http://localhost:3000,https://space-book-frontend-pi.vercel.app}")
     private String allowedOrigins;
 
     public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter, UserDetailsService userDetailsService) {
@@ -76,29 +75,21 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        
-        List<String> patterns = new ArrayList<>(List.of(
+        List<String> origins = Arrays.stream(allowedOrigins.split(","))
+                .map(String::trim)
+                .filter(s -> !s.isEmpty())
+                .toList();
+        configuration.setAllowedOrigins(origins);
+        configuration.setAllowedOriginPatterns(List.of(
                 "https://*.vercel.app",
-                "https://*.onrender.com",
+                "https://space-book-frontend-pi.vercel.app",
                 "http://localhost:*",
-                "http://127.0.0.1:*"
+                "https://*.onrender.com"
         ));
-
-        if (allowedOrigins != null && !allowedOrigins.isBlank()) {
-            for (String origin : allowedOrigins.split(",")) {
-                String trimmed = origin.trim();
-                if (!trimmed.isEmpty() && !patterns.contains(trimmed)) {
-                    patterns.add(trimmed);
-                }
-            }
-        }
-
-        configuration.setAllowedOriginPatterns(patterns);
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
-        configuration.setExposedHeaders(Arrays.asList("Authorization", "Set-Cookie"));
+        configuration.setExposedHeaders(Arrays.asList("Authorization", "Content-Disposition"));
         configuration.setAllowCredentials(true);
-        configuration.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
