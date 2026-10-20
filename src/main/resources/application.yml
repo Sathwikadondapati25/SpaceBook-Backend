@@ -54,10 +54,10 @@ spacebook:
     jwt:
       access-token-expiration: 900000  # 15 minutes in milliseconds
       refresh-token-expiration: 604800000  # 7 days in milliseconds
-      secret: ${JWT_SECRET}
+      secret: ${JWT_SECRET:SpaceBookSecretKeyForJwtAuthenticationMustBeAtLeast256BitsLongForSecurity}
     cors:
       allowed-origins: ${CORS_ORIGINS:http://localhost:5173,http://localhost:3000,https://space-book-frontend-pi.vercel.app}
-    organizer-invite-code: ${ORGANIZER_INVITE_CODE}
+    organizer-invite-code: ${ORGANIZER_INVITE_CODE:SB-ORG-2026-SECURE}
     rate-limit:
       login-attempts: 5
       lockout-minutes: 15

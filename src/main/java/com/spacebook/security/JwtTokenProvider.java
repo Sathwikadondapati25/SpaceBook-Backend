@@ -21,7 +21,10 @@ public class JwtTokenProvider {
     private long accessTokenExpiration;
 
     private SecretKey getSigningKey() {
-        byte[] keyBytes = jwtSecret.getBytes();
+        String secret = (jwtSecret != null && jwtSecret.trim().length() >= 32)
+                ? jwtSecret.trim()
+                : "SpaceBookSecretKeyForJwtAuthenticationMustBeAtLeast256BitsLongForSecurity";
+        byte[] keyBytes = secret.getBytes(java.nio.charset.StandardCharsets.UTF_8);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
