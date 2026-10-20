@@ -7,17 +7,11 @@ services:
     dockerContext: .
     envVars:
       - key: SPRING_DATASOURCE_URL
-        fromDatabase:
-          name: spacebook-db
-          property: jdbcUri
+        sync: false
       - key: SPRING_DATASOURCE_USERNAME
-        fromDatabase:
-          name: spacebook-db
-          property: username
+        sync: false
       - key: SPRING_DATASOURCE_PASSWORD
-        fromDatabase:
-          name: spacebook-db
-          property: password
+        sync: false
       - key: JWT_SECRET
         generateValue: true
         length: 64
@@ -26,9 +20,3 @@ services:
       - key: ORGANIZER_INVITE_CODE
         generateValue: true
         length: 24
-
-databases:
-  - name: spacebook-db
-    databaseName: spacebook
-    user: spacebook_user
-    plan: free

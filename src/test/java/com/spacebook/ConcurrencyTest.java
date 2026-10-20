@@ -62,7 +62,26 @@ class ConcurrencyTest {
         } else {
             registry.add("spring.datasource.url", () -> "jdbc:mysql://localhost:3306/spacebook_test?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true");
             registry.add("spring.datasource.username", () -> "root");
-            registry.add("spring.datasource.password", () -> System.getenv().getOrDefault("SPRING_DATASOURCE_PASSWORD", ""));
+            registry.add("spring.datasource.password", () -> {
+                String pass = System.getenv("SPRING_DATASOURCE_PASSWORD");
+                if (pass == null || pass.isBlank()) {
+                    pass = System.getProperty("SPRING_DATASOURCE_PASSWORD");
+                }
+                if (pass == null || pass.isBlank()) {
+                    try {
+                        java.nio.file.Path p = java.nio.file.Paths.get(".env");
+                        if (java.nio.file.Files.exists(p)) {
+                            for (String l : java.nio.file.Files.readAllLines(p)) {
+                                if (l.startsWith("SPRING_DATASOURCE_PASSWORD=")) {
+                                    pass = l.substring("SPRING_DATASOURCE_PASSWORD=".length()).trim();
+                                    break;
+                                }
+                            }
+                        }
+                    } catch (Exception ignored) {}
+                }
+                return pass != null ? pass : "";
+            });
         }
     }
 
